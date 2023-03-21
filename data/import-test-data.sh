@@ -1,1 +1,0 @@
-mongoimport --db <db-name> --collection <collection-name> --file ./test-dataset.json --jsonArray
