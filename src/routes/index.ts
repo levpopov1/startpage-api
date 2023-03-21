@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { notFound, genericErrorHandler } from "../middleware/errorHandlers";
 import peopleRouter from "./peopleRouter";
+import prisma from "../db";
 
 const router = Router();
 
@@ -12,8 +13,16 @@ router.get("/", (req, res) => {
   });
 });
 
-// apply handlers to specific routes
-router.use("/people", peopleRouter);
+router.get("/all", async (req, res) => {
+  const users = await prisma.user.findMany();
+  res.status(200).json({
+    statusCode: 200,
+    users: users,
+  });
+});
+
+// // apply handlers to specific routes
+// router.use("/people", peopleRouter);
 
 // if none of the above routes handle the request it will error out here
 router.use(notFound);

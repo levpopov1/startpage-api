@@ -3,13 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
 import routes from "./routes";
-import connectDB from "./db";
 
 // sets environment variables based on centents of .env file
 dotenv.config();
-
-// db
-connectDB();
 
 // start server instance
 const app = express();
@@ -28,7 +24,7 @@ app.use(morgan("dev"));
 // url middleware
 app.use(json());
 // route handlers
-app.use("/api", routes);
+app.use("/", routes);
 
 // // begin listening on given port
 const PORT = process.env.PORT || 5000;
