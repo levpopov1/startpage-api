@@ -8,10 +8,18 @@ const seedData = Array.from({ length: 20 }).map(() => {
   const lastName = faker.name.lastName();
   const widgets = Array.from({ length: 3 }).map(() => ({
     name: faker.helpers.arrayElement(["imageOfTheDay", "search", "time"]),
-    column: Number(faker.random.numeric()),
-    row: Number(faker.random.numeric()),
-    width: Number(faker.random.numeric()),
-    height: Number(faker.random.numeric()),
+    location: {
+      create: {
+        column: Number(faker.random.numeric()),
+        row: Number(faker.random.numeric()),
+      },
+    },
+    size: {
+      create: {
+        width: Number(faker.random.numeric()),
+        height: Number(faker.random.numeric()),
+      },
+    },
   }));
   return {
     email: faker.internet.email(firstName, lastName),
@@ -29,7 +37,6 @@ const seedData = Array.from({ length: 20 }).map(() => {
 });
 
 async function main() {
-  await prisma.user.deleteMany();
   await Promise.all(
     seedData.map((item) =>
       prisma.user.create({

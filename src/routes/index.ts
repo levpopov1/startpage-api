@@ -29,14 +29,19 @@ router.get("/widget", async (req, res) => {
     include: {
       profile: {
         include: {
-          widgets: true,
+          widgets: {
+            include: {
+              size: true,
+              location: true,
+            },
+          },
         },
       },
     },
   });
   res.status(200).json({
     statusCode: 200,
-    userWidgets: user.profile.widgets,
+    widgets: user.profile.widgets,
   });
 });
 

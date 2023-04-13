@@ -27,12 +27,26 @@ model Profile {
 }
 
 model Widget {
-  id        Int     @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  column    Int
-  row       Int
-  width     Int
-  height    Int
-  profile   Profile @relation(fields: [profileId], references: [id])
+  location  Location?
+  size      Size?
+  profile   Profile   @relation(fields: [profileId], references: [id])
   profileId Int
+}
+
+model Location {
+  id       Int    @id @default(autoincrement())
+  column   Int
+  row      Int
+  widget   Widget @relation(fields: [widgetId], references: [id])
+  widgetId Int    @unique
+}
+
+model Size {
+  id       Int    @id @default(autoincrement())
+  width    Int
+  height   Int
+  widget   Widget @relation(fields: [widgetId], references: [id])
+  widgetId Int    @unique
 }
