@@ -21,6 +21,25 @@ router.get("/all", async (req, res) => {
   });
 });
 
+router.get("/widget", async (req, res) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: 1,
+    },
+    include: {
+      profile: {
+        include: {
+          widgets: true,
+        },
+      },
+    },
+  });
+  res.status(200).json({
+    statusCode: 200,
+    userWidgets: user.profile.widgets,
+  });
+});
+
 // // apply handlers to specific routes
 // router.use("/people", peopleRouter);
 
