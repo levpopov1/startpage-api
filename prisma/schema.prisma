@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs https//pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -11,9 +11,28 @@ datasource db {
 }
 
 model User {
-  id            Int     @id @default(autoincrement())
-  email         String  @unique
-  userName      String  @unique
-  firstName     String
-  lastName      String
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  userName  String   @unique
+  firstName String
+  lastName  String
+  profile   Profile?
+}
+
+model Profile {
+  id      Int      @id @default(autoincrement())
+  widgets Widget[]
+  user    User     @relation(fields: [userId], references: [id])
+  userId  Int      @unique
+}
+
+model Widget {
+  id        Int     @id @default(autoincrement())
+  name      String
+  column    Int
+  row       Int
+  width     Int
+  height    Int
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int
 }
