@@ -45,6 +45,48 @@ router.get("/widget", async (req, res) => {
   });
 });
 
+router.post("/widget/:id", async (req, res) => {
+  const updatedWidget = await prisma.widget.update({
+    where: {
+      id: Number(req.params.id),
+    },
+    data: {
+      size: {
+        update: {
+          ...req.body.size,
+        },
+      },
+    },
+    include: {
+      location: true,
+      size: true,
+    },
+  });
+
+  // const updatedSize = await prisma.size.update({
+  //   where: {
+  //     widgetId: Number(req.params.id),
+  //   },
+  //   data: {
+  //     ...req.body.size,
+  //   },
+  // });
+  // const updatedWidget = await prisma.widget.findUnique({
+  //   where: {
+  //     id: Number(req.params.id),
+  //   },
+  //   include: {
+  //     location: true,
+  //     size: true,
+  //   },
+  // });
+  console.log(updatedWidget);
+  res.status(200).json({
+    statusCode: 200,
+    widget: updatedWidget,
+  });
+});
+
 // // apply handlers to specific routes
 // router.use("/people", peopleRouter);
 
