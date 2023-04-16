@@ -13,16 +13,20 @@ router.get("/", (req, res) => {
   });
 });
 
-// User Routes
+// User Get Routes
 router.get("/users", userController.getAll);
 router.get("/users/:id", userController.getOne);
+router.get("/users/:id/widgets", widgetController.getMany);
+
+// User Post Routes
 router.post("/users", userController.create);
 router.post("/users/:id", userController.update);
 
-// Widget Routes
+// Widget Get Routes
 router.get("/widgets", widgetController.getAll);
 router.get("/widgets/:id", widgetController.getOne);
-router.get("/widgets/user/:id", widgetController.getMany);
+
+// Widget Post Routes
 router.post("/widgets", widgetController.create);
 router.post("/widgets/:id", widgetController.update);
 
