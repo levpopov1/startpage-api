@@ -10,7 +10,7 @@ https://www.prisma.io/docs/reference/api-reference/command-reference
 
 - npx prisma db seed => (add randomly generated data into db)
 - npx prisma generate => (generate new version of prisma client, after making changes to schema)
-- npm prisma format => (fixes the formatting in the .prisma schema file)
+- npx prisma format => (fixes the formatting in the .prisma schema file)
 - npx prisma db push => (prototype schema changes without generating a migration)
 - npx prisma migrate dev => (generate migration once schema changes are finalised)
 - npx prisma migrate deploy => (apply migrations in prod)

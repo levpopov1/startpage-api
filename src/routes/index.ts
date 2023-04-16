@@ -27,21 +27,12 @@ router.get("/widget", async (req, res) => {
       id: 1,
     },
     include: {
-      profile: {
-        include: {
-          widgets: {
-            include: {
-              size: true,
-              location: true,
-            },
-          },
-        },
-      },
+      widgets: true,
     },
   });
   res.status(200).json({
     statusCode: 200,
-    widgets: user.profile.widgets,
+    widgets: user.widgets,
   });
 });
 
@@ -51,15 +42,7 @@ router.post("/widget/:id", async (req, res) => {
       id: Number(req.params.id),
     },
     data: {
-      size: {
-        update: {
-          ...req.body.size,
-        },
-      },
-    },
-    include: {
-      location: true,
-      size: true,
+      ...req.body,
     },
   });
 

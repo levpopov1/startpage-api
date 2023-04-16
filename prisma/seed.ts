@@ -8,30 +8,18 @@ const seedData = Array.from({ length: 20 }).map(() => {
   const lastName = faker.name.lastName();
   const widgets = Array.from({ length: 3 }).map(() => ({
     name: faker.helpers.arrayElement(["imageOfTheDay", "search", "time"]),
-    location: {
-      create: {
-        column: Number(faker.random.numeric()),
-        row: Number(faker.random.numeric()),
-      },
-    },
-    size: {
-      create: {
-        width: Number(faker.random.numeric()),
-        height: Number(faker.random.numeric()),
-      },
-    },
+    column: Number(faker.random.numeric()),
+    row: Number(faker.random.numeric()),
+    width: Number(faker.random.numeric()),
+    height: Number(faker.random.numeric()),
   }));
   return {
     email: faker.internet.email(firstName, lastName),
     userName: faker.internet.userName(firstName, lastName),
     firstName,
     lastName,
-    profile: {
-      create: {
-        widgets: {
-          create: widgets,
-        },
-      },
+    widgets: {
+      create: widgets,
     },
   };
 });
@@ -44,11 +32,6 @@ async function main() {
       })
     )
   );
-
-  // cant use createMany with schemas that have relations
-  // await prisma.user.createMany({
-  //   data,
-  // });
 }
 
 main()
