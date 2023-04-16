@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { notFound, genericErrorHandler } from "../middleware/errorHandlers";
-import peopleRouter from "./peopleRouter";
-import prisma from "../db";
+import * as userController from "../controllers/userController";
+import * as widgetController from "../controllers/widgetController";
 
 const router = Router();
 
@@ -13,65 +13,18 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/all", async (req, res) => {
-  const users = await prisma.user.findMany();
-  res.status(200).json({
-    statusCode: 200,
-    users: users,
-  });
-});
+// User Routes
+router.get("/users", userController.getAll);
+router.get("/users/:id", userController.getOne);
+router.post("/users", userController.create);
+router.post("/users/:id", userController.update);
 
-router.get("/widget", async (req, res) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: 1,
-    },
-    include: {
-      widgets: true,
-    },
-  });
-  res.status(200).json({
-    statusCode: 200,
-    widgets: user.widgets,
-  });
-});
-
-router.post("/widget/:id", async (req, res) => {
-  const updatedWidget = await prisma.widget.update({
-    where: {
-      id: Number(req.params.id),
-    },
-    data: {
-      ...req.body,
-    },
-  });
-
-  // const updatedSize = await prisma.size.update({
-  //   where: {
-  //     widgetId: Number(req.params.id),
-  //   },
-  //   data: {
-  //     ...req.body.size,
-  //   },
-  // });
-  // const updatedWidget = await prisma.widget.findUnique({
-  //   where: {
-  //     id: Number(req.params.id),
-  //   },
-  //   include: {
-  //     location: true,
-  //     size: true,
-  //   },
-  // });
-  console.log(updatedWidget);
-  res.status(200).json({
-    statusCode: 200,
-    widget: updatedWidget,
-  });
-});
-
-// // apply handlers to specific routes
-// router.use("/people", peopleRouter);
+// Widget Routes
+router.get("/widgets", widgetController.getAll);
+router.get("/widgets/:id", widgetController.getOne);
+router.get("/widgets/user/:id", widgetController.getMany);
+router.post("/widgets", widgetController.create);
+router.post("/widgets/:id", widgetController.update);
 
 // if none of the above routes handle the request it will error out here
 router.use(notFound);
